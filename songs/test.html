@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+<title>Drag & Drop</title>
+<style type="text/css">
+body {margin:0;font-family:Georgia;background-color:#ccc;}
+*{color:#003;}
+#pge {display:block;position:relative;width:800px;margin:10px auto;padding:10px;background-color:#fff;}
+p {display:block;width:400px;margin:0;padding:0;}
+p:first-letter {padding-left:50px;}
+img,b {display:block;margin:20px;}
+
+.drag {position:relative;cursor:pointer;}
+</style>
+<script type="text/javascript">
+var dragobject={
+	ox:null, oy:null, trgObj:null, okDrg:0,sx:0, sy:0,
+	initialize:function(){
+		document.onmousedown=this.drag
+		document.onmouseup=function(){this.okDrg=0;
+		// alert('Position: left: '+this.trgObj.offsetLeft+', top: '+this.trgObj.offsetTop)
+		}}
+	,drag:function(e){
+		var evtobj=window.event? window.event:e
+		this.trgObj=window.event? event.srcElement:e.target
+		if (this.trgObj.className=="drag"){
+			this.okDrg=1
+			if (isNaN(parseInt(this.trgObj.style.left))){this.trgObj.style.left=0}
+			if (isNaN(parseInt(this.trgObj.style.top))){this.trgObj.style.top=0}
+			this.ox=parseInt(this.trgObj.style.left)
+			this.oy=parseInt(this.trgObj.style.top)
+			this.sx=evtobj.clientX
+			this.sy=evtobj.clientY
+			if (evtobj.preventDefault) evtobj.preventDefault()
+			document.onmousemove=dragobject.moveit}}
+	,moveit:function(e){
+		var evtobj=window.event? window.event:e
+		if (this.okDrg==1){
+			this.trgObj.style.left=this.ox+evtobj.clientX-this.sx+"px"
+			this.trgObj.style.top=this.oy+evtobj.clientY-this.sy+"px"
+		return false}}
+}
+dragobject.initialize()
+</script>
+</head>
+<body>
+<div id="pge">  
+	<img src="images/avatar_defaut.png" border=0 class=drag>
+	<p class=drag>Lorem ipsum dolor sit amet consectetuer urna magna urna tortor habitant. Morbi volutpat Curabitur ligula a vitae Donec.
+		<br>Nisl consectetuer a sodales sociis risus tincidunt vitae magna cursus laoreet.
+	</p>  
+	<p class=drag>Lorem ipsum dolor sit amet consectetuer Nam libero mauris suscipit hendrerit. Sollicitudin vel Pellentesque. Scelerisque semper cursus tortor eget porttitor sed urna sed justo Aenean. Consequat.
+	</p>
+	<b class=drag>All is moving on this world !</b>
+</div>
+</body>
+</html>
