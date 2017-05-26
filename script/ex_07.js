@@ -46,11 +46,7 @@ function manage_audio(audio, c_btn) {
   } else if (c_btn === "Stop") {
     audio.load();
   } else if (c_btn === "Mute") {
-    if (audio.muted) {
-      audio.muted = false;
-    } else {
-      audio.muted = true;
-    }
+    audio.muted = !audio.muted;
   }
 }
 
